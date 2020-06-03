@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torpedo</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button id="startButton" class="btn btn-block btn-primary">Start</button>
+                <button id="deleteButton" class="btn btn-block btn-primary">Delete</button>
+                <form id="gameForm">
+                    <div class="form-group">
+                      <label for="PlayFieldX">Size X</label>
+                      <input type="number" class="form-control" id="PlayFieldX">
+                    </div>
+                    <div class="form-group">
+                        <label for="PlayFieldY">Size Y</label>
+                        <input type="number" class="form-control" id="PlayFieldY">
+                      </div>
+                    <div class="form-group">
+                      <label for="difficulityFormControlSelect">Difficulity</label>
+                      <select class="form-control" id="difficulityFormControlSelect">
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                      </select>
+                    </div>
+                  </form>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <table id="enemyTable" class="table table-borderless">
+                    <thead>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col4"></div>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <table id="playerTable" class="table table-borderless">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <td>
+                            <tr>
+                                <div class="alert alert-primary" role="alert" id="remainingInfo">Remaining enemy ships: <b><span id="remainingSpan"></span></b></div>
+                            </tr>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col4"></div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>
