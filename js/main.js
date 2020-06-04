@@ -2,6 +2,10 @@ let boardPositions = [];
 let shipPositions = [];
 let shipCount;
 let shipFound;
+let torpedosFiredCount;
+let efficiency;
+let allAreasCount;
+let diffPercentage;
 init();
 
 function init() {
@@ -11,8 +15,9 @@ function init() {
 
   toggleDisplay(false);
 
-  document.querySelector("#PlayFieldX").value = 5;
-  document.querySelector("#PlayFieldY").value = 5;
+  document.querySelector("#PlayFieldX").value = 15;
+  document.querySelector("#PlayFieldY").value = 15;
+
 }
 
 function gameStart() {
@@ -20,10 +25,17 @@ function gameStart() {
   shipPositions = [];
   shipCount = 0;
   shipFound = 0;
+  torpedosFiredCount = 0;
+  efficiency = 0;
+  allAreasCount = 0;
+  diffPercentage = 0;
 
   toggleDisplay(true);
   tableCreate()
   addShips();
+  document.querySelector("#allAreasSpan").innerHTML = allAreasCount;
+  document.querySelector("#torpedosFiredSpan").innerHTML = 0;
+  document.querySelector("#efficiencySpan").innerHTML = 100.00;
 }
 
 function tableDelete() {
@@ -39,16 +51,14 @@ function tableCreate() {
 
 
   switch (difficulity) {
-    // TODO: difficulity settings will going to change the "ai" behaviour,
-    // on Easy it will going to pick randomly only
-    // on Medium if a ship is hit, then it will randomly pick around the hit and after random again
-    // on Hard if a ship is hit, then it will randomly pick around until not found all the connected ship
-    // currently it just ship numbers
     case "Easy":
+      diffPercentage = 7;
       break;
     case "Medium":
+      diffPercentage = 3;
       break;
     case "Hard":
+      diffPercentage = 1;
       break;
 
   }
@@ -58,10 +68,10 @@ function tableCreate() {
   for (let i = 0; i < gameFieldX; i++) {
     let tr = document.createElement("tr");
     for (let j = 0; j < gameFieldY; j++) {
-
+      allAreasCount++;
       let td = document.createElement("td");
       let button = document.createElement("button");
-      let buttonId = i + "" + j;
+      let buttonId = allAreasCount;
       boardPositions.push(buttonId);
       button.setAttribute("id", "area" + buttonId);
       button.setAttribute("class", "btn btn-primary");
@@ -78,7 +88,7 @@ function tableCreate() {
 
 function addShips() {
   for (let position of boardPositions) {
-    if (Math.random() * 10 <= 3) {
+    if (Math.random() * 10 <= diffPercentage) {
       shipPositions.push(position);
       shipCount++;
     }
@@ -93,9 +103,9 @@ function addShips() {
 
 function hitOrMiss() {
   let strippedId = this.id.replace("area", "");
-  if (shipPositions.includes(strippedId)) {
+  if (shipPositions.includes(parseInt(strippedId))) {
     document.querySelector("#area" + strippedId).setAttribute("class", "btn btn-danger");
-    if (shipCount > shipFound) {
+    if (shipCount >= shipFound) {
       shipFound++;
     }
     if (shipFound == shipCount) {
@@ -104,8 +114,25 @@ function hitOrMiss() {
   } else {
     document.querySelector("#area" + strippedId).setAttribute("class", "btn btn-dark");
   }
-  document.querySelector("#remainingSpan").innerHTML = shipCount - shipFound;
+  torpedosFiredCount++;
+  efficiency = (shipFound / torpedosFiredCount) * 100;
+  efficiency = efficiency.toFixed(2);
 
+  if (efficiency < 30.00) {
+    document.querySelector("#alertInfo").style.display = "initial";
+  } else {
+    document.querySelector("#alertInfo").style.display = "none";
+  }
+  
+
+  refreshInfoDisplayData();
+
+}
+
+function refreshInfoDisplayData() {
+  document.querySelector("#remainingSpan").innerHTML = shipCount - shipFound + " / " + shipFound;
+  document.querySelector("#torpedosFiredSpan").innerHTML = torpedosFiredCount;
+  document.querySelector("#efficiencySpan").innerHTML = efficiency;
 }
 
 function toggleDisplay(isGameStarted) {
@@ -122,6 +149,7 @@ function toggleDisplay(isGameStarted) {
     document.querySelector("#gameForm").style.display = "initial";
     document.querySelector("#deleteButton").style.display = "none";
     document.querySelector("#remainingInfo").style.display = "none";
+    document.querySelector("#alertInfo").style.display = "none";
 
   }
 }
