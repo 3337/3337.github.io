@@ -6,6 +6,7 @@ let torpedosFiredCount;
 let efficiency;
 let allAreasCount;
 let diffPercentage;
+let torpedosWastedCount;
 init();
 
 function init() {
@@ -29,6 +30,7 @@ function gameStart() {
   efficiency = 0;
   allAreasCount = 0;
   diffPercentage = 0;
+  torpedosWastedCount = 0;
 
   toggleDisplay(true);
   tableCreate()
@@ -36,6 +38,8 @@ function gameStart() {
   document.querySelector("#allAreasSpan").innerHTML = allAreasCount;
   document.querySelector("#torpedosFiredSpan").innerHTML = 0;
   document.querySelector("#efficiencySpan").innerHTML = 100.00;
+  document.querySelector("#torpedosWastedSpan").innerHTML = 0;
+  
 }
 
 function tableDelete() {
@@ -113,6 +117,7 @@ function hitOrMiss() {
     }
   } else {
     document.querySelector("#area" + strippedId).setAttribute("class", "btn btn-dark");
+    torpedosWastedCount++;
   }
   torpedosFiredCount++;
   efficiency = (shipFound / torpedosFiredCount) * 100;
@@ -133,6 +138,7 @@ function refreshInfoDisplayData() {
   document.querySelector("#remainingSpan").innerHTML = shipCount - shipFound + " / " + shipFound;
   document.querySelector("#torpedosFiredSpan").innerHTML = torpedosFiredCount;
   document.querySelector("#efficiencySpan").innerHTML = efficiency;
+  document.querySelector("#torpedosWastedSpan").innerHTML = torpedosWastedCount;
 }
 
 function toggleDisplay(isGameStarted) {
