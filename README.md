@@ -1,2 +1,1 @@
-# 3337.github.io
-Test site
+It is a little game, where you need to shoot torpedoes. Inspired by the classic torpedo and minesweeper. Very simple gameplay, at first you need to choose the play area size and the difficulty, after that just click on the buttons, to reveal if there is a ship under it or not. It was a simple training project to try out some HTML with Bootstrap and JavaScript, and it became fun, so I share it. It may contains bugs and definitely needs to be developed further. 
